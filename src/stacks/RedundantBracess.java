@@ -1,6 +1,5 @@
 package stacks;
 /*
-InterviewBit:
 Write a program to validate if the input string has redundant braces?
 Return 0/1
 
@@ -18,4 +17,6 @@ Example:
  */
 
 public class RedundantBracess {
+
+    // ()
 }

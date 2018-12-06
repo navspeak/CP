@@ -47,28 +47,35 @@ public class EvaluateRPN {
             if (isOperand(token)) {
                 stack.push(token);
 
-            } else if (isOperator(token)) {
+            } else  {
                 String operand1 = stack.pop();
                 String operand2 = stack.pop();
                 String result = operate(operand2, operand1, token);
                 stack.push(result);
 
-            } else {
-                throw new RuntimeException("Invalid tokens");
             }
         }
 
+        if (stack.size() > 1) throw new RuntimeException("Eval Error!");
+        return Integer.parseInt(stack.pop());
+
     }
 
-    private String operate(String operand2, String operand1, String token) {
-    }
 
-    private boolean isOperator(String token) {
-        return false;
+    private String operate(String operand2, String operand1, String operator) {
+        int b = Integer.parseInt(operand2);
+        int a = Integer.parseInt(operand1);
+        switch (operator){
+            case "+" : return Integer.toString(b+a);
+            case "-" : return Integer.toString(b-a);
+            case "*" : return Integer.toString(b*a);
+            case "/" :return Integer.toString(b/a);
+            default: throw new RuntimeException("Unsupported operator") ;
+        }
     }
 
     private boolean isOperand(String token) {
-        return false;
+        return token.matches("-?[0-9]+");
     }
 
     public static void main(String[] args) {
@@ -77,7 +84,7 @@ public class EvaluateRPN {
         int b = evaluateRPN.evalRPN(new String[]{"4", "13", "5", "/", "+"});
         int c = evaluateRPN.evalRPN(new String[]{"2", "1", "+", "3", "*"});
         System.out.println(a == 22 ? "Test 1 passed" : "Test 1 failed");
-        System.out.println(b == 6 ? "Test 1 passed" : "Test 1 failed");
-        System.out.println(c == 9 ? "Test 1 passed" : "Test 1 failed");
+        System.out.println(b == 6 ? "Test 2 passed" : "Test 2 failed");
+        System.out.println(c == 9 ? "Test 3 passed" : "Test 3 failed");
     }
 }
