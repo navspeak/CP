@@ -46,21 +46,40 @@ Explanation: 342 + 465 = 807.
     }
 
 
+    public static ListNode reverse(ListNode l1){
+        if (l1.next == null) return l1;
+        ListNode reversed = reverse(l1.next);
+        l1.next.next = l1;
+        l1.next = null;
+        return reversed;
+    }
+
+    public static ListNode reverseItr(ListNode l1){
+        if (l1 == null || l1.next == null) return l1;
+        ListNode ptr = null, ptrNxt = l1;
+        while(ptrNxt!=null){
+            ListNode tmp = ptrNxt.next;
+            ptrNxt.next = ptr;
+            ptr = ptrNxt;
+            ptrNxt = tmp;
+        }
+        return ptr;
+    }
     public static void main(String[] args) {
 
 
-        //Input: 1->2->4, 1->3->4
-        //Output: 1->1->2->3->4->4
         ListNode l1 = new ListNode(2);
         l1.next = new ListNode(4);
         l1.next.next = new ListNode( 3);
+        l1.next.next.next = new ListNode( 5);
+        print(l1);
+        print(reverseItr(l1));
 
         ListNode l2 = new ListNode(5);
         l2.next = new ListNode(6);
         l2.next.next = new ListNode( 8);
-        print(l1);
-        print(l2);
-        print(addTwoNumbers(l1,l2));
+
+        //print(addTwoNumbers(l1,l2));
        // print(mergeTwoListsRec(l1,l2));
 
         //print(l1);
@@ -160,8 +179,5 @@ Explanation: 342 + 465 = 807.
         }
         return merged;
     }
-
-
-
 
 }
