@@ -66,8 +66,6 @@ Explanation: 342 + 465 = 807.
         return ptr;
     }
     public static void main(String[] args) {
-
-
         ListNode l1 = new ListNode(2);
         l1.next = new ListNode(4);
         l1.next.next = new ListNode( 3);
@@ -80,12 +78,10 @@ Explanation: 342 + 465 = 807.
         l2.next.next = new ListNode( 8);
 
         //print(addTwoNumbers(l1,l2));
-       // print(mergeTwoListsRec(l1,l2));
+        // print(mergeTwoListsRec(l1,l2));
 
         //print(l1);
         //print(l2);
-
-
 
     }
 
