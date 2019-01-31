@@ -1,10 +1,8 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
-public class BasicCalculator {
+public class BasicCalculatorGeneric {
     /*
  Implement a basic calculator to evaluate a simple expression string.
 
@@ -34,6 +32,7 @@ Do not use the eval built-in library function.
         System.out.println(calculate("3/2"));
         System.out.println(calculate("3+5 / 2"));
         System.out.println(calculate("42"));
+        System.out.println(calculate("2 * 3 ^ 4 / 5 - 6 * 7 ^ ( 8 - 9)"));
 
 
     }
@@ -46,34 +45,34 @@ Do not use the eval built-in library function.
 
 
     private static List<String> convertToPostFix(String s) {
-        Stack<Character> stack = new Stack<>();
+        // f = a * c ^ k / p - q * g ^ ( h - b)  => fack^*p/qghb-
+        int len = s.length();
         List<String> postfix = new ArrayList<>();
-        final int length = s.length();
-        for (int i = 0; i < length; i++) {
-            char c = s.charAt(i);
-            if (Character.isWhitespace(c)) continue;
-            if(Character.isDigit(c)) {
-                int startOfNumericVal = i;
-                i++;
-                while(i < length && Character.isDigit(s.charAt(i))){
-                    i++;
-                };
-                postfix.add(s.substring(startOfNumericVal, i));
-                i--;
-            } else {
-                    if (stack.isEmpty() || precedence(c) > precedence(stack.peek()) || c == '('){
-                        stack.push(c);
-                    } else {
-                        while(!stack.isEmpty() && precedence(c) <= precedence(stack.peek()) || c == ')' ){
-                            char popped = stack.pop();
-                            if (popped == '(') break;
-                            postfix.add(Character.toString(popped));
-                        }
-                        if (c != ')') stack.push(c);
+        Deque<Character> stack = new LinkedList<>();
+        for (int i = 0; i < len ; i++) {
+            char curr = s.charAt(i);
+            if (Character.isWhitespace(curr)) continue;
+            else if (Character.isDigit(curr)) {
+                int num = curr - '0';
+                while(i < len - 1 && Character.isDigit(s.charAt(i+1))){
+                    num = num * 10 + s.charAt(++i) - '0';
+                }
+                postfix.add(Integer.toString(num));
+            } else {// this must be an operand
+                if (stack.isEmpty() || curr == '(' || precedence(curr) > precedence(stack.peek()))
+                    stack.push(curr);
+                else {
+                    while (!stack.isEmpty() && precedence(curr) <= precedence(stack.peek())
+                    || curr == ')'){
+                        char popped = stack.pop();
+                        if (popped == '(') break;
+                        postfix.add(Character.toString(popped));
                     }
+                    if (curr != ')') stack.push(curr);
+                }
             }
         }
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             postfix.add(Character.toString(stack.pop()));
         }
         return postfix;
@@ -82,18 +81,19 @@ Do not use the eval built-in library function.
 
     private static int precedence(char c) {
         switch (c) {
-            case '^': return 4;
+            case '^': return 5;
             case '*':
-            case '/': return 3;
+            case '/': return 4;
             case '+':
-            case '-': return 2;
-            case '(': return 1;
+            case '-': return 3;
+            case '(': return 2;
+            //case '=': return 1; needed for LHS = RHS types
             default : return 0;
         }
     }
 
     private static int evalRPN(List<String> postFix) {
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new LinkedList<>();
         for(String s : postFix){
             if (s.matches("\\d+")){
                 stack.push(Integer.parseInt(s));
@@ -104,7 +104,7 @@ Do not use the eval built-in library function.
             }
         }
         int ret = stack.pop();
-        if(!stack.empty()) throw new RuntimeException("In valid postfix!");
+        if(!stack.isEmpty()) throw new RuntimeException("In valid postfix!");
         return ret;
     }
 
