@@ -49,12 +49,11 @@ public class MaximumSubArray {
         //int best = 0; int sum = 0;
         int best = array[0]; int sum = array[0];
         // Consider input [-1]
-        int endIndexOfSubArray = 0;
+        int endIndexOfSubArray = 0; // needed if we want to print all elements
         final int length = array.length;
         for (int i = 1; i < length; i++) {
             sum = Math.max(array[i], sum+array[i]);
             if (sum > best) {
-                best = sum;
                 endIndexOfSubArray = i;
             }
             best = Math.max(sum, best);
