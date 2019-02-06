@@ -46,10 +46,12 @@ public class MaximumSubArray {
     // Subarray ending at k will have maximum sum = array[k]
     // or sum of maximum for subarray ending at k-1 + array[k]
     public int solve_lineartime(int[] array){
-        int best = 0; int sum = 0;
+        //int best = 0; int sum = 0;
+        int best = array[0]; int sum = array[0];
+        // Consider input [-1]
         int endIndexOfSubArray = 0;
         final int length = array.length;
-        for (int i = 0; i < length; i++) {
+        for (int i = 1; i < length; i++) {
             sum = Math.max(array[i], sum+array[i]);
             if (sum > best) {
                 best = sum;
@@ -78,6 +80,16 @@ public class MaximumSubArray {
         System.out.printf("%d %d %d\n", ans1, ans2, ans3);
     }
 
+    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+    public int maxProfit(int[] prices) {
+        int minBuyingPrice = Integer.MAX_VALUE;
+        int profit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            profit = Math.max(profit, prices[i] - minBuyingPrice);
+            minBuyingPrice = Math.min(minBuyingPrice, prices[i]);
+        }
+        return profit;
+    }
 
 }
 /*
