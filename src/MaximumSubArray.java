@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class MaximumSubArray {
     //−1 2 4 −3 5 2 −5 2
@@ -10,14 +7,14 @@ public class MaximumSubArray {
     A straightforward way to solve the problem is to go through all possible subarrays,
     calculate the sum of values in each subarray and maintain the maximum sum.
      */
-    public int solve_ncube(int[] array){
+    public int solve_ncube(int[] array) {
         int best = 0;
         final int length = array.length;
         for (int i = 0; i < length; i++) { // first pointer
             for (int j = i; j < length; j++) { // second pointer
                 int sum = 0;
-                for (int k = i; k <=j ; k++) {
-                    sum+=array[k]; // sum in the window between first & second pointer
+                for (int k = i; k <= j; k++) {
+                    sum += array[k]; // sum in the window between first & second pointer
                 }
                 best = Math.max(sum, best);
             }
@@ -28,7 +25,7 @@ public class MaximumSubArray {
 
     // Improve it by computing sum at the same time as we move second pointer
     // O(n^2)
-    public int solve_nsquare(int[] array){
+    public int solve_nsquare(int[] array) {
         int best = 0;
         final int length = array.length;
         for (int i = 0; i < length; i++) {
@@ -42,27 +39,29 @@ public class MaximumSubArray {
         }
         return best;
     }
+
     // Kadane's algo
     // Subarray ending at k will have maximum sum = array[k]
     // or sum of maximum for subarray ending at k-1 + array[k]
-    public int solve_lineartime(int[] array){
+    public int solve_lineartime(int[] array) {
         //int best = 0; int sum = 0;
-        int best = array[0]; int sum = array[0];
+        int best = array[0];
+        int sum = array[0];
         // Consider input [-1]
         int endIndexOfSubArray = 0; // needed if we want to print all elements
         final int length = array.length;
         for (int i = 1; i < length; i++) {
-            sum = Math.max(array[i], sum+array[i]);
+            sum = Math.max(array[i], sum + array[i]);
             if (sum > best) {
                 endIndexOfSubArray = i;
             }
             best = Math.max(sum, best);
         }
         int rem = best;
-        for (int i = endIndexOfSubArray; i > 0 ; i--) {
+        for (int i = endIndexOfSubArray; i > 0; i--) {
             if (rem <= 0) break;
             System.out.print(array[i] + " ");
-            rem-=array[i];
+            rem -= array[i];
 
         }
         System.out.println("\n=====");
@@ -71,24 +70,28 @@ public class MaximumSubArray {
 
 
     public static void main(String[] args) {
-        MaximumSubArray maximumSubArray = new MaximumSubArray();
-        int[] array = {-1, 2, 4, -3, 5, 2, -5, 2};
-        int ans1 = maximumSubArray.solve_lineartime(array);
-        int ans2 = maximumSubArray.solve_nsquare(array);
-        int ans3 = maximumSubArray.solve_ncube(array);
-        System.out.printf("%d %d %d\n", ans1, ans2, ans3);
+//        MaximumSubArray maximumSubArray = new MaximumSubArray();
+//        int[] array = {-1, 2, 4, -3, 5, 2, -5, 2};
+//        int ans1 = maximumSubArray.solve_lineartime(array);
+//        int ans2 = maximumSubArray.solve_nsquare(array);
+//        int ans3 = maximumSubArray.solve_ncube(array);
+//        System.out.printf("%d %d %d\n", ans1, ans2, ans3);
+//        int[] arr2 = {7,1,5,3,6,4};
+//        int[] arr3 = {1,2,3,4,5};
+//        int[] arr4 = {7,6,4,3,1};
+//        System.out.println(maxProfit2(arr2));
+//        System.out.println(maxProfit2(arr3));
+//        System.out.println(maxProfit2(arr4));
+
+//        int[] arr2 = {3,3,5,0,0,3,1,4};
+//        int[] arr3 = {1,2,3,4,5};
+//        int[] arr4 = {7,6,4,3,1};
+//        System.out.println(maxProfit3(arr2));
+//        System.out.println(maxProfit3(arr3));
+//        System.out.println(maxProfit3(arr4));
     }
 
-    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
-    public int maxProfit(int[] prices) {
-        int minBuyingPrice = Integer.MAX_VALUE;
-        int profit = 0;
-        for (int i = 0; i < prices.length; i++) {
-            profit = Math.max(profit, prices[i] - minBuyingPrice);
-            minBuyingPrice = Math.min(minBuyingPrice, prices[i]);
-        }
-        return profit;
-    }
+
 
 }
 /*
