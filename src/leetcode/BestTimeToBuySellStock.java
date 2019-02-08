@@ -5,6 +5,7 @@ public class BestTimeToBuySellStock {
     //http://hanslen.me/2017/10/15/Best-Time-to-Buy-and-Sell-Stock-series-with-Dynamic-Programming-in-Java/
 
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+    //ßhttps://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/75927/Share-my-thinking-process
 
     /*
 Say you have an array for which the ith element is the price of a given stock on day i.
