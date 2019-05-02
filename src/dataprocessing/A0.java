@@ -80,10 +80,44 @@ public class A0 {
         Predicate<String> p3 = Predicate.isEqual("three");
         Stream.of("one","two", "three").filter(p2.or(p2)).forEach(c1);
 
+        List<String> res = new ArrayList<>();
+        final Stream<String> peek = Stream.of("A", "AB", "C", "AD")
+                .peek(System.out::println)
+                .filter(x -> x.startsWith("A"))
+                .peek(result::add);// does nothing as peek is intermediary
+
+        peek.forEach(c1); // foreach is terminal (final)
+
+        // question what is the correct output:
+        // a) A \n A \n AB \n AB \n C \n AD \n AD
+        // b) A \n AB \n C \n AD \n A \n AB \AD
+        // ans - a. think why
+
+        List<Integer> list1 = Arrays.asList(1, 2, 3, 4);
+        List<Integer> list2= Arrays.asList(10, 20, 30);
+        List<Integer> list3 = Arrays.asList(100, 200, 300, 400, 500);
+
+        /*
+        <R> Stream<R> map(Function<T, R> mapper);
+        <R> Stream<R> flatMap(Function<T, Stream<R>>);
+         */
+        List<List<Integer>> totList = Arrays.asList(list1,list2,list3);
+        Function<List<?>, Integer> sizeMap = List::size;
+        Function<List<Integer>, Stream<Integer>> flatMapper = l -> l.stream();
+
+        System.out.println("---");
+        totList.stream().map(sizeMap).forEach(System.out::println);
+        System.out.println("---");
+        totList.stream().map(flatMapper).forEach(System.out::println);
+        System.out.println("---");
+        totList.stream().flatMap(flatMapper).forEach(System.out::println);
+
 
     }
 
     static boolean notACommentLine(String line) { return !line.startsWith("#");}
     static List<String> getLineContentAsList(String line) { return Arrays.asList(line.split(","));}
+
+
 
 }
