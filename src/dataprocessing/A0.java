@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -40,17 +37,34 @@ public class A0 {
         intStream.forEach(System.out::println);
 
 
-
-        Path path = Paths.get("/src/test.txt");
-        try(Stream<String> streamOfLines = Files.lines(path);){
-            final List<List<String>> listOfPersons = streamOfLines.filter(A0::notACommentLine)
+        try(Stream<String> streamOfLines = Files.lines(Paths.get("src/People.txt"));){
+            final List<List<String>> listOfLineEntry = streamOfLines.filter(A0::notACommentLine)
                     .map(A0::getLineContentAsList)
                     .collect(Collectors.toList());
-            List<Person> personList = new ArrayList<>();
-//            listOfPersons.stream()
-//                    .collect(Person::new,
+            System.out.println(listOfLineEntry);
+            List<Person> persons = new ArrayList<>();
+            listOfLineEntry.stream()
+                    .map(t->{
+
+                        String name = t.get(0);
+                        Integer age = Integer.valueOf(t.get(1).trim());
+                        String gender = t.get(2);
+                        return new Person(name, age, gender);
+                    })
+                    .forEach(persons::add);
+            Comparator<Person> compareAgeAndThenName = Comparator.comparing(Person::getAge, Comparator.reverseOrder())
+                    .thenComparing(Person::getName);
+            persons.sort(compareAgeAndThenName);
+
+            persons.forEach(System.out::println);
+
+
+
+
+
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
+
         }
 
         /*
@@ -112,11 +126,20 @@ public class A0 {
         System.out.println("---");
         totList.stream().flatMap(flatMapper).forEach(System.out::println);
 
+        List<String> strings = Arrays.asList("one", "two", "three", "four", "five");
+        //strings is unmodifable
+        Collection<String> col = new ArrayList<>(strings);
+        col.removeIf(s -> s.length() > 3);
+        System.out.println(col.stream().collect(Collectors.joining(", ")));
+        List<String> list_1 = new ArrayList<>(strings);
+        list_1.replaceAll(String::toUpperCase);
+        System.out.println(list_1.stream().collect(Collectors.joining(", ")));
+
 
     }
 
     static boolean notACommentLine(String line) { return !line.startsWith("#");}
-    static List<String> getLineContentAsList(String line) { return Arrays.asList(line.split(","));}
+    static List<String> getLineContentAsList(String line) { return Arrays.asList(line.split(" "));}
 
 
 

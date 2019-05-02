@@ -1,42 +1,34 @@
 package dataprocessing;
 
 public class Person {
-    private String name;
-    private int age;
-    private String city;
 
-    public Person(String name, int age, String city) {
+    private String name;
+
+    private int age;
+
+    private String gender;
+
+    public Person(){}
+
+    public Person(String name, int age, String gender) {
         this.name = name;
         this.age = age;
-        this.city = city;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" + "name=" + name + ", age=" + age + ", city=" + city + '}';
+        this.gender = gender;
     }
 
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return this.name;
     }
 
     public int getAge() {
-        return age;
+        return this.age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public String getGender() {
+        return this.gender;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public String toString() {
+        return "Person [" + this.name + ", " + this.age + ", " + this.gender + "]";
     }
 }
