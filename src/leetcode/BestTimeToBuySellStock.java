@@ -5,7 +5,7 @@ public class BestTimeToBuySellStock {
     //http://hanslen.me/2017/10/15/Best-Time-to-Buy-and-Sell-Stock-series-with-Dynamic-Programming-in-Java/
 
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
-    //ßhttps://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/75927/Share-my-thinking-process
+    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/75927/Share-my-thinking-process
 
     /*
 Say you have an array for which the ith element is the price of a given stock on day i.
@@ -39,9 +39,11 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 //
 /*
 Say you have an array for which the ith element is the price of a given stock on day i.
-Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
+Design an algorithm to find the maximum profit. You may complete as many transactions as you like
+(i.e., buy one and sell one share of the stock multiple times).
 
-Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+Note: You may not engage in multiple transactions at the same time
+(i.e., you must sell the stock before you buy again).
 
 Example 1:
 
@@ -64,20 +66,12 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
      */
 
     public static int maxProfit2(int[] prices) {
-        int bp, sp, profit=0, i = 0;
-        int len = prices.length;
-        while(i < len - 1){
-            bp = prices[i];
-            while (i < len - 1 && prices[i+1] < prices[i]){
-                bp = prices[++i];
+        int profit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            int tmp = prices[i] - prices[i-1];
+            if (tmp > 0) {
+                profit +=tmp;
             }
-            sp = bp;
-
-            while (i < len - 1 && prices[i+1] > prices[i]){
-                sp = prices[++i];
-            }
-            profit+=sp-bp;
-            i++;
         }
         return profit;
     }

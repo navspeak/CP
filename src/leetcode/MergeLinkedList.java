@@ -18,6 +18,10 @@ Example:
 Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 0 -> 8
 Explanation: 342 + 465 = 807.
+342 + 83 =
+2->4->3
+3->8
+
  */
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
          ListNode ptr1 = l1, ptr2 = l2, ptrTmp = null, ptrFinal = null;
@@ -47,6 +51,10 @@ Explanation: 342 + 465 = 807.
 
 
     public static ListNode reverse(ListNode l1){
+        if (l1 == null || l1.next == null) return l1;
+        //l1 -> l2 -> l3
+        // l1-> l2 <-l3 <-rev
+        // l1.next = l2
         if (l1.next == null) return l1;
         ListNode reversed = reverse(l1.next);
         l1.next.next = l1;
@@ -56,14 +64,14 @@ Explanation: 342 + 465 = 807.
 
     public static ListNode reverseItr(ListNode l1){
         if (l1 == null || l1.next == null) return l1;
-        ListNode ptr = null, ptrNxt = l1;
-        while(ptrNxt!=null){
-            ListNode tmp = ptrNxt.next;
-            ptrNxt.next = ptr;
-            ptr = ptrNxt;
-            ptrNxt = tmp;
+        ListNode prev  = null, next = l1;
+        while(next!=null){
+            ListNode tmp = next.next;
+            next.next = prev;
+            prev = next;
+            next = tmp;
         }
-        return ptr;
+        return prev;
     }
     public static void main(String[] args) {
         ListNode l1 = new ListNode(2);
