@@ -7,7 +7,8 @@ import java.util.concurrent.TimeUnit;
 class Demonstration {
     public static void main( String args[] ) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        final TokenBucketFilter tokenBucketFilter = new TokenBucketFilter(1);
+        final TokenBucketFilter tokenBucketFilter = new TokenBucketFilter(5);
+        TimeUnit.SECONDS.sleep(10);
         for (int i = 0; i < 10 ; i++) {
             executorService.submit(()-> tokenBucketFilter.getToken());
         }
@@ -45,7 +46,8 @@ class TokenBucketFilter {
         }
         lastRequestTime = System.currentTimeMillis();
 
-        System.out.println("Granting " + Thread.currentThread().getName() + " token at " + (System.currentTimeMillis() / 1000));
+        System.out.println("Granting from " + (possibleTokens+1) + "tokens "
+                + Thread.currentThread().getName() + " token at " + (System.currentTimeMillis() / 1000));
     }
 
 
