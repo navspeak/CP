@@ -16,6 +16,7 @@ public class FibonacciUsingStream {
                 .forEach(System.out::println);
 
 
+
         final Stream<Integer> streamOfIntegers = Stream.iterate(new int[]{0, 1}, x -> new int[]{x[1], x[0] + x[1]})
                 .map(x -> x[1])
                 .limit(15);

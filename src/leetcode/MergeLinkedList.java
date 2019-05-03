@@ -57,6 +57,7 @@ Explanation: 342 + 465 = 807.
         // l1.next = l2
         if (l1.next == null) return l1;
         ListNode reversed = reverse(l1.next);
+        // Note l1.next still points to what is now rev.
         l1.next.next = l1;
         l1.next = null;
         return reversed;
